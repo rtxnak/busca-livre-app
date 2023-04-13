@@ -18,4 +18,15 @@ export default class SearchAndResultsService {
 
     return { code: 201, result: createdSearchRegister };
   }
+
+  public findOne = async (search: Omit<ISearch, "results">) => {
+
+    const foundSearch = await this._searchAndResultsRepository.findOne(search);
+
+    if (!foundSearch) {
+      return { code: 404, result: { message: "Item not found" } };
+    }
+
+    return { code: 200, result: foundSearch };
+  }
 }

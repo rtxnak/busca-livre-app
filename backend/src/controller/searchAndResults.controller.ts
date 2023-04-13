@@ -16,4 +16,14 @@ export default class SearchAndResultsController {
       next(err);
     }
   }
+
+  async findSearch (req: Request, res: Response, next: NextFunction) {
+    try {
+      const { body } = req;
+      const search = await this._searchAndResultsService.findOne(body);
+      return res.status(search.code).json(search.result)
+    } catch (err) {
+      next(err);
+    }
+  }
 }

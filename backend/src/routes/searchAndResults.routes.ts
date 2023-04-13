@@ -14,4 +14,8 @@ searchAndResultsRouter.post('/', (req, res, next) => {
   searchAndResultsController.saveNewSearch(req, res, next);
 });
 
+searchAndResultsRouter.post('/search', (req, res, next) => {
+  searchAndResultsController.findSearch(req, res, next);
+});
+
 export default searchAndResultsRouter;
