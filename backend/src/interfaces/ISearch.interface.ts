@@ -4,7 +4,7 @@ import { ResultSchema } from './IResult.interface'
 const SearchSchema = ResultSchema.extend({
   query: z.string(),
   webpage: z.string(),
-  caetgory: z.string(),
+  category: z.string(),
 });
 
 export type ISearch = z.infer<typeof SearchSchema>;
