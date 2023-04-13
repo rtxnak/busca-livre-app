@@ -1,6 +1,7 @@
 import * as express from 'express';
 
 import connectToDatabase from './database/connection';
+import searchAndResultsRouter from './routes/searchAndResults.routes';
 
 class App {
   public app: express.Application
@@ -30,7 +31,7 @@ class App {
   }
 
   private routes(): void {
-    // this.app.use('/');
+    this.app.use('/', searchAndResultsRouter);
   }
 }
 
