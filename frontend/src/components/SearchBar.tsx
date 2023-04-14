@@ -1,12 +1,23 @@
+import { useContext } from "react";
+import { Context } from "@/context/context";
 import { webpagesNames } from "@/helpers/webpages";
 import { categoriesNames } from "@/helpers/categories";
 
 export default function SearchBar() {
+  const {
+    setWebPageSelection,
+    setCategorySelection,
+    queryInput,
+    setQueryInput
+  } = useContext(Context)
+
   return (
     <div
       className="flex flex-row">
       <select
-        // onChange={}
+        onChange={(e) => {
+          setCategorySelection(e.target.value)
+        }}
         className="p-1 m-1 text-xs w-1/4 md:text-base md:w-fit"
       >
         {webpagesNames.map((category, index) => (
@@ -16,7 +27,9 @@ export default function SearchBar() {
         ))}
       </select >
       <select
-        // onChange={}
+        onChange={(e) => {
+          setWebPageSelection(e.target.value)
+        }}
         className="p-1 m-1 text-xs w-1/4 md:text-base md:w-fit"
       >
         {categoriesNames.map((category, index) => (
@@ -27,8 +40,10 @@ export default function SearchBar() {
       </select>
       <input
         type="text"
-        // value={}
-        // onChange={}
+        value={queryInput}
+        onChange={(e) => {
+          setQueryInput(e.target.value)
+        }}
         className="p-1 m-1 w-fit text-xs md:text-base md:w-full"
       />
 
