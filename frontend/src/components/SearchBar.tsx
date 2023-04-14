@@ -16,10 +16,13 @@ export default function SearchBar() {
       className="flex flex-row">
       <select
         onChange={(e) => {
-          setCategorySelection(e.target.value)
+          setWebPageSelection(e.target.value)
         }}
         className="p-1 m-1 text-xs w-1/4 md:text-base md:w-fit"
       >
+        <option disabled selected>
+          Web
+        </option>
         {webpagesNames.map((category, index) => (
           <option key={index} value={category}>
             {category}
@@ -28,10 +31,13 @@ export default function SearchBar() {
       </select >
       <select
         onChange={(e) => {
-          setWebPageSelection(e.target.value)
+          setCategorySelection(e.target.value)
         }}
         className="p-1 m-1 text-xs w-1/4 md:text-base md:w-fit"
       >
+        <option disabled selected>
+          Categorias
+        </option>
         {categoriesNames.map((category, index) => (
           <option key={index} value={category}>
             {category}
