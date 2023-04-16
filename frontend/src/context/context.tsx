@@ -16,7 +16,8 @@ type contextType = {
   setQueryInput: Dispatch<SetStateAction<string>>,
   productsFound: [],
   webAndCategoryOnSearch: { webpage: string, category: string }
-  handleClickSearchButton: () => void
+  handleClickSearchButton: () => void,
+  onLoading: boolean
 }
 
 export const Context = createContext<contextType>({} as contextType);
@@ -28,6 +29,7 @@ export const ContextProvider = ({ children }: contextProps) => {
   const [queryInput, setQueryInput] = useState<string>('');
   const [productsFound, setProductsFound] = useState<[]>([])
   const [webAndCategoryOnSearch, setWebAndCategoryOnSearch] = useState<{ webpage: string, category: string }>({ webpage: '', category: '' })
+  const [onLoading, setOnLoading] = useState<boolean>(false)
 
   const mercadoLivreResultsParse = async () => {
     const categoriesArray = Object.entries(MercadoLivreCategoriesIds)
@@ -61,16 +63,18 @@ export const ContextProvider = ({ children }: contextProps) => {
 
   const handleClickSearchButton = async () => {
     if (webPageSelection === "MercadoLivre") {
+      setOnLoading(true);
       setWebAndCategoryOnSearch({ webpage: webPageSelection, category: categorySelection })
       const products = await mercadoLivreResultsParse();
       setProductsFound(products)
+      setOnLoading(false);
     }
     if (webPageSelection === "Buscapé") {
-      console.log('loading...')
+      setOnLoading(true);
       setWebAndCategoryOnSearch({ webpage: webPageSelection, category: categorySelection })
       const products = await buscapeResultsParse();
       setProductsFound(products)
-      console.log('finish')
+      setOnLoading(false);
     }
   }
 
@@ -85,7 +89,8 @@ export const ContextProvider = ({ children }: contextProps) => {
         setQueryInput,
         productsFound,
         webAndCategoryOnSearch,
-        handleClickSearchButton
+        handleClickSearchButton,
+        onLoading
       }}
     >
       {children}

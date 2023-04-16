@@ -3,12 +3,14 @@ import ProductCard from '@/components/ProductCard'
 import SearchBar from '@/components/SearchBar'
 import { useContext } from "react";
 import { Context } from "@/context/context";
+import Loading from '@/components/Loading';
 
 
 export default function Home() {
 
   const {
-    productsFound
+    productsFound,
+    onLoading
   } = useContext(Context)
 
   return (
@@ -24,11 +26,17 @@ export default function Home() {
         <div
           className="my-14 md:my-20"
         >
-          {productsFound.map((products, i) => {
-            return (
-              <ProductCard key={i} >{products}</ProductCard>
-            )
-          })}
+          {
+            onLoading ?
+              (<Loading />) :
+              <>
+                {productsFound.map((products, i) => {
+                  return (
+                    <ProductCard key={i} >{products}</ProductCard>
+                  )
+                })}
+              </>
+          }
         </div>
       </main>
     </div>
