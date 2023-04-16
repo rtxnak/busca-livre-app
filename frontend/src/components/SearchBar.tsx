@@ -8,7 +8,8 @@ export default function SearchBar() {
     setWebPageSelection,
     setCategorySelection,
     queryInput,
-    setQueryInput
+    setQueryInput,
+    handleClickSearchButton
   } = useContext(Context)
 
   return (
@@ -54,7 +55,7 @@ export default function SearchBar() {
       />
 
       <button
-        // onClick={}
+        onClick={() => handleClickSearchButton()}
         className="border m-1 p-1 px-2 text-xs bg-blue-700 text-zinc-50 w-2/12 md:text-base md:w-1/4"
       >
         Buscar

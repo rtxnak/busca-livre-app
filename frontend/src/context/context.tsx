@@ -14,6 +14,9 @@ type contextType = {
   setCategorySelection: Dispatch<SetStateAction<string>>,
   queryInput: string,
   setQueryInput: Dispatch<SetStateAction<string>>,
+  productsFound: [],
+  webAndCategoryOnSearch: { webpage: string, category: string }
+  handleClickSearchButton: () => void
 }
 
 export const Context = createContext<contextType>({} as contextType);
@@ -23,6 +26,8 @@ export const ContextProvider = ({ children }: contextProps) => {
   const [webPageSelection, setWebPageSelection] = useState<string>('Todas');
   const [categorySelection, setCategorySelection] = useState<string>('');
   const [queryInput, setQueryInput] = useState<string>('');
+  const [productsFound, setProductsFound] = useState<[]>([])
+  const [webAndCategoryOnSearch, setWebAndCategoryOnSearch] = useState<{ webpage: string, category: string }>({ webpage: '', category: '' })
 
   const mercadoLivreResultsParse = async () => {
     const categoriesArray = Object.entries(MercadoLivreCategoriesIds)
@@ -46,9 +51,24 @@ export const ContextProvider = ({ children }: contextProps) => {
   const buscapeResultsParse = async () => {
     const categoriesArray = Object.entries(buscapeCategoriesIds)
     const categoryFiltered = categoriesArray.filter((key) => key[0] === categorySelection);
-    const categoryId = categoryFiltered.length > 1 ? categoryFiltered[0][1] : "";
+    const categoryId = categoryFiltered.length === 1 ? categoryFiltered[0][1] : "";
     const results = await buscapeGetProductsFromCategoryAndQuery(queryInput as string, categoryId as string);
     return results;
+  }
+
+  const handleClickSearchButton = async () => {
+    if (webPageSelection === "MercadoLivre") {
+      setWebAndCategoryOnSearch({ webpage: webPageSelection, category: categorySelection })
+      const products = await mercadoLivreResultsParse();
+      setProductsFound(products)
+    }
+    if (webPageSelection === "Buscapé") {
+      console.log('loading...')
+      setWebAndCategoryOnSearch({ webpage: webPageSelection, category: categorySelection })
+      const products = await buscapeResultsParse();
+      setProductsFound(products)
+      console.log('finish')
+    }
   }
 
   return (
@@ -59,7 +79,10 @@ export const ContextProvider = ({ children }: contextProps) => {
         categorySelection,
         setCategorySelection,
         queryInput,
-        setQueryInput
+        setQueryInput,
+        productsFound,
+        webAndCategoryOnSearch,
+        handleClickSearchButton
       }}
     >
       {children}
