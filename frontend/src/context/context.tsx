@@ -1,4 +1,5 @@
-import { MercadoLivreCategoriesIds } from "@/helpers/categories";
+import { MercadoLivreCategoriesIds, buscapeCategoriesIds } from "@/helpers/categories";
+import { buscapeGetProductsFromCategoryAndQuery } from "@/services/buscapeAPI";
 import { mercadoLivreGetProductsFromCategoryAndQuery } from "@/services/mercadoLivreAPI";
 import { createContext, Dispatch, ReactNode, SetStateAction, useState } from "react";
 
@@ -40,6 +41,14 @@ export const ContextProvider = ({ children }: contextProps) => {
       )
     })
     return mercadoLivreParsedData;
+  }
+
+  const buscapeResultsParse = async () => {
+    const categoriesArray = Object.entries(buscapeCategoriesIds)
+    const categoryFiltered = categoriesArray.filter((key) => key[0] === categorySelection);
+    const categoryId = categoryFiltered.length > 1 ? categoryFiltered[0][1] : "";
+    const results = await buscapeGetProductsFromCategoryAndQuery(queryInput as string, categoryId as string);
+    return results;
   }
 
   return (
