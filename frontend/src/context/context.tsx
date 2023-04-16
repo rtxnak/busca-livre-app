@@ -46,7 +46,7 @@ export const ContextProvider = ({ children }: contextProps) => {
           }),
           link: result.permalink,
           category: categorySelection || 'sem categoria',
-          webpage: webPageSelection,
+          webpage: 'MercadoLivre',
         }
       )
     })
@@ -62,7 +62,7 @@ export const ContextProvider = ({ children }: contextProps) => {
       return ({
         ...result,
         category: categorySelection || 'sem categoria',
-        webpage: webPageSelection,
+        webpage: 'Buscapé',
       })
     });
   }
@@ -77,6 +77,14 @@ export const ContextProvider = ({ children }: contextProps) => {
     if (webPageSelection === "Buscapé") {
       setOnLoading(true);
       const products = await buscapeResultsParse();
+      setProductsFound(products)
+      setOnLoading(false);
+    }
+    if (webPageSelection === "Todas") {
+      setOnLoading(true);
+      const mecadoLivreProducts = await mercadoLivreResultsParse();
+      const buscapeProducts = await buscapeResultsParse();
+      const products = mecadoLivreProducts.concat(buscapeProducts);
       setProductsFound(products)
       setOnLoading(false);
     }
