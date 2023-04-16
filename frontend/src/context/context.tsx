@@ -40,7 +40,10 @@ export const ContextProvider = ({ children }: contextProps) => {
         {
           description: result.title,
           img: result.thumbnail,
-          price: (result.price).toString(),
+          price: (result.price).toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+          }),
           link: result.permalink
         }
       )
