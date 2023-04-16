@@ -69,6 +69,9 @@ export const ContextProvider = ({ children }: contextProps) => {
   }
 
   const handleClickSearchButton = async () => {
+    if (!queryInput && !categorySelection){
+      return alert('Selecione uma categoria ou digite sua pesquisa')
+    }
     const searchAndResultOnDatabase = await checkSearchAndResultOnDatabase(queryInput, categorySelection, webPageSelection);
     if (searchAndResultOnDatabase.message === "Item not found") {
       if (webPageSelection === "MercadoLivre") {
