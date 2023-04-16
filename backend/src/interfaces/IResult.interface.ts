@@ -7,6 +7,8 @@ const ResultSchema = z.object({
       img: z.string(),
       price: z.string(),
       link: z.string(),
+      category: z.string(),
+      webpage: z.string(),
     }
   ))
 });
