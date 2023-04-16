@@ -20,14 +20,14 @@ export default class BuscapeAPIService {
     const pageInfo = categoryId === "" ? pageInfoWithoutCategory : pageInfoWithCategory;
 
     await page.goto(pageInfo, {
-      waitUntil: "domcontentloaded",
+      waitUntil: 'networkidle0',
     });
 
-    let nextPage = true
+    // let nextPage = true
 
     const result: any[] = [];
 
-    while (nextPage) {
+    // while (nextPage) {
       const pageData = await page.evaluate(() => {
         const quoteList: NodeList = document.querySelectorAll(".SearchCard_ProductCard_Inner__7JhKb");
 
@@ -50,15 +50,15 @@ export default class BuscapeAPIService {
 
       result.push(...pageData);
 
-      if (await page.$(`[data-testid="page-next"] a`)) {
-        await Promise.all([
-          page.click(`[data-testid="page-next"] a`),
-          page.waitForNavigation({ waitUntil: 'networkidle2' })
-        ]);
-      } else {
-        break
-      }
-    }
+    //   if (await page.$(`[data-testid="page-next"] a`)) {
+    //     await Promise.all([
+    //       page.click(`[data-testid="page-next"] a`),
+    //       page.waitForNavigation({ waitUntil: 'networkidle2' })
+    //     ]);
+    //   } else {
+    //     break
+    //   }
+    // }
 
     await browser.close();
 
