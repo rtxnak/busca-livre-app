@@ -15,7 +15,6 @@ type contextType = {
   queryInput: string,
   setQueryInput: Dispatch<SetStateAction<string>>,
   productsFound: [],
-  webAndCategoryOnSearch: { webpage: string, category: string }
   handleClickSearchButton: () => void,
   onLoading: boolean
 }
@@ -28,7 +27,6 @@ export const ContextProvider = ({ children }: contextProps) => {
   const [categorySelection, setCategorySelection] = useState<string>('');
   const [queryInput, setQueryInput] = useState<string>('');
   const [productsFound, setProductsFound] = useState<[]>([])
-  const [webAndCategoryOnSearch, setWebAndCategoryOnSearch] = useState<{ webpage: string, category: string }>({ webpage: '', category: '' })
   const [onLoading, setOnLoading] = useState<boolean>(false)
 
   const mercadoLivreResultsParse = async () => {
@@ -46,7 +44,9 @@ export const ContextProvider = ({ children }: contextProps) => {
             style: 'currency',
             currency: 'BRL',
           }),
-          link: result.permalink
+          link: result.permalink,
+          category: categorySelection || 'sem categoria',
+          webpage: webPageSelection,
         }
       )
     })
@@ -58,20 +58,24 @@ export const ContextProvider = ({ children }: contextProps) => {
     const categoryFiltered = categoriesArray.filter((key) => key[0] === categorySelection);
     const categoryId = categoryFiltered.length === 1 ? categoryFiltered[0][1] : "";
     const results = await buscapeGetProductsFromCategoryAndQuery(queryInput as string, categoryId as string);
-    return results;
+    return results.map((result: {}) => {
+      return ({
+        ...result,
+        category: categorySelection || 'sem categoria',
+        webpage: webPageSelection,
+      })
+    });
   }
 
   const handleClickSearchButton = async () => {
     if (webPageSelection === "MercadoLivre") {
       setOnLoading(true);
-      setWebAndCategoryOnSearch({ webpage: webPageSelection, category: categorySelection })
       const products = await mercadoLivreResultsParse();
       setProductsFound(products)
       setOnLoading(false);
     }
     if (webPageSelection === "Buscapé") {
       setOnLoading(true);
-      setWebAndCategoryOnSearch({ webpage: webPageSelection, category: categorySelection })
       const products = await buscapeResultsParse();
       setProductsFound(products)
       setOnLoading(false);
@@ -88,7 +92,6 @@ export const ContextProvider = ({ children }: contextProps) => {
         queryInput,
         setQueryInput,
         productsFound,
-        webAndCategoryOnSearch,
         handleClickSearchButton,
         onLoading
       }}

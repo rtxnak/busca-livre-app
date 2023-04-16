@@ -1,22 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useContext } from "react";
-import { Context } from "@/context/context";
 
 export default function ProductCard({ children }: any) {
-  const {
-    webAndCategoryOnSearch
-  } = useContext(Context);
 
   const websiteReference = () => {
     const mercadoLivreWebsite = 'www.mercadolivre.com';
     const buscapeWebsite = 'www.buscape.com.br'
-    if (webAndCategoryOnSearch.webpage === 'MercadoLivre') {
+    if (children.webpage === 'MercadoLivre') {
       return (
         <p>{mercadoLivreWebsite}</p>
       )
     }
-    if (webAndCategoryOnSearch.webpage === 'Buscapé') {
+    if (children.webpage === 'Buscapé') {
       return (
         <p>{buscapeWebsite}</p>
       )
@@ -40,7 +35,7 @@ export default function ProductCard({ children }: any) {
         <p
           className="text-xs md:text-2xl my-1"
         >
-          Categoria: {webAndCategoryOnSearch.category}
+          Categoria: {children.category}
         </p>
         <p
           className="text-lg text-center md:text-left md:text-4xl text-gray-500"
