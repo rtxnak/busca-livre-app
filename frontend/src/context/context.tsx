@@ -26,7 +26,7 @@ export const ContextProvider = ({ children }: contextProps) => {
   const mercadoLivreResultsParse = async () => {
     const categoriesArray = Object.entries(MercadoLivreCategoriesIds)
     const categoryFiltered = categoriesArray.filter((key) => key[0] === categorySelection);
-    const categoryId = categoryFiltered.length > 1 ? categoryFiltered[0][1] : ""
+    const categoryId = categoryFiltered.length === 1 ? categoryFiltered[0][1] : ""
 
     const { results } = await mercadoLivreGetProductsFromCategoryAndQuery(categoryId, queryInput);
     const mercadoLivreParsedData = results.map((result: any) => {
