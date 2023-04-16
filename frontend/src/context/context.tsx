@@ -1,6 +1,7 @@
 import { MercadoLivreCategoriesIds, buscapeCategoriesIds } from "@/helpers/categories";
 import { buscapeGetProductsFromCategoryAndQuery } from "@/services/buscapeAPI";
 import { mercadoLivreGetProductsFromCategoryAndQuery } from "@/services/mercadoLivreAPI";
+import { checkSearchAndResultOnDatabase, saveNewSearchAndResultOnDatabase } from "@/services/searchAndResultsAPI";
 import { createContext, Dispatch, ReactNode, SetStateAction, useState } from "react";
 
 type contextProps = {
@@ -68,26 +69,38 @@ export const ContextProvider = ({ children }: contextProps) => {
   }
 
   const handleClickSearchButton = async () => {
-    if (webPageSelection === "MercadoLivre") {
+    const searchAndResultOnDatabase = await checkSearchAndResultOnDatabase(queryInput, categorySelection, webPageSelection);
+    if (searchAndResultOnDatabase.message === "Item not found") {
+      if (webPageSelection === "MercadoLivre") {
+        setOnLoading(true);
+        const products = await mercadoLivreResultsParse();
+        setProductsFound(products)
+        await saveNewSearchAndResultOnDatabase(queryInput, categorySelection, webPageSelection, products)
+        setOnLoading(false);
+      }
+      if (webPageSelection === "Buscapé") {
+        setOnLoading(true);
+        const products = await buscapeResultsParse();
+        setProductsFound(products)
+        await saveNewSearchAndResultOnDatabase(queryInput, categorySelection, webPageSelection, products)
+        setOnLoading(false);
+      }
+      if (webPageSelection === "Todas") {
+        setOnLoading(true);
+        const mecadoLivreProducts = await mercadoLivreResultsParse();
+        const buscapeProducts = await buscapeResultsParse();
+        const products = mecadoLivreProducts.concat(buscapeProducts);
+        setProductsFound(products)
+        await saveNewSearchAndResultOnDatabase(queryInput, categorySelection, webPageSelection, products)
+        setOnLoading(false);
+      }
+    } else {
       setOnLoading(true);
-      const products = await mercadoLivreResultsParse();
-      setProductsFound(products)
+      const { results } = searchAndResultOnDatabase
+      setProductsFound(results);
       setOnLoading(false);
     }
-    if (webPageSelection === "Buscapé") {
-      setOnLoading(true);
-      const products = await buscapeResultsParse();
-      setProductsFound(products)
-      setOnLoading(false);
-    }
-    if (webPageSelection === "Todas") {
-      setOnLoading(true);
-      const mecadoLivreProducts = await mercadoLivreResultsParse();
-      const buscapeProducts = await buscapeResultsParse();
-      const products = mecadoLivreProducts.concat(buscapeProducts);
-      setProductsFound(products)
-      setOnLoading(false);
-    }
+
   }
 
   return (
