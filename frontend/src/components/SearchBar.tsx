@@ -21,9 +21,10 @@ export default function SearchBar() {
           setWebPageSelection(e.target.value)
         }}
         disabled={onLoading}
+        defaultValue={'DEFAULT'} 
         className="p-1 m-1 text-xs w-1/4 md:text-base md:w-fit"
       >
-        <option disabled selected>
+        <option disabled value="DEFAULT">
           Web
         </option>
         {webpagesNames.map((category, index) => (
@@ -37,9 +38,10 @@ export default function SearchBar() {
           setCategorySelection(e.target.value)
         }}
         disabled={onLoading}
+        defaultValue={'DEFAULT'} 
         className="p-1 m-1 text-xs w-1/4 md:text-base md:w-fit"
       >
-        <option disabled selected>
+        <option disabled value="DEFAULT">
           Categorias
         </option>
         {categoriesNames.map((category, index) => (
