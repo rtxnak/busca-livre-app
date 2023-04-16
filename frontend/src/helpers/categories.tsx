@@ -9,3 +9,10 @@ export const MercadoLivreCategoriesIds = {
   Geladeiras: "MLB181294",
   Celular: 'MLB1055'
 }
+
+
+export const buscapeCategoriesIds = {
+  TV: "3",
+  Geladeiras: "8",
+  Celular: '7'
+}
