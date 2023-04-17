@@ -10,8 +10,7 @@ const nextConfig = {
         hostname: 'http2.mlstatic.com',
       },
     ],
-  },
-  staticPageGenerationTimeout: 120000,
+  }
 }
 
 module.exports = nextConfig
