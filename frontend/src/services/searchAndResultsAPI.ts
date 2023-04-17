@@ -5,7 +5,6 @@ const url = process.env.NEXT_PUBLIC_API_LINK || "http://localhost:3001/"
 
 export const api = axios.create({
   baseURL: url,
-  timeout: 10000,
 });
 
 export const checkSearchAndResultOnDatabase = async (query: string, category: string, webpage: string) => {
