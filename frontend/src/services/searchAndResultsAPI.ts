@@ -2,10 +2,10 @@ import axios from 'axios';
 import { AxiosError } from 'axios';
 
 const url = process.env.NEXT_PUBLIC_API_LINK || "http://localhost:3001/"
-console.log(url);
 
 export const api = axios.create({
-  baseURL: url
+  baseURL: url,
+  timeout: 10000,
 });
 
 export const checkSearchAndResultOnDatabase = async (query: string, category: string, webpage: string) => {
