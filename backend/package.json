@@ -1,7 +1,9 @@
 {
+  "main": "./build/server",
   "scripts": {
     "build": "npx -y tsc",
     "dev": "nodemon --watch \"./src/**\" ./src/server.ts",
+    "prestart": "npm run build",
     "start": "node ."
   },
   "dependencies": {

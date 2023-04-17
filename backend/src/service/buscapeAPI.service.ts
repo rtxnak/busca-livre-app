@@ -3,7 +3,12 @@ import puppeteer from 'puppeteer';
 export default class BuscapeAPIService {
   public buscapeWebScrappingSearch = async (query: string, categoryId: string) => {
     const browser = await puppeteer.launch({
+      executablePath: '/usr/bin/google-chrome',
       defaultViewport: null,
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox'
+    ]
     });
 
     const page = await browser.newPage();
