@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { AxiosError } from 'axios';
 
-const url = "http://localhost:3001/"
+const url = process.env.API_LINK || "http://localhost:3001/"
 
 export const api = axios.create({
   baseURL: url
