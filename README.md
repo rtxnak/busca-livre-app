@@ -1,4 +1,4 @@
-# Buscar-Livre-app
+# Busca-Livre-app
 ## About project
 ![Captura de tela de 2023-04-17 00-14-44](https://user-images.githubusercontent.com/88905400/232369335-5ee82067-01d0-4a67-b1f6-82937463dc28.png)
 
